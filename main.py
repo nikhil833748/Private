@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import Flask
 
 # Telegram bot token
-BOT_TOKEN = "7738466078:AAFFSbV6m5VYmnBDjWfwufGvBHH9jya1qX8"
+BOT_TOKEN = "7616068751:AAEEz9SEDfZBHdrBjNN7GI00eiXVj-EBuOM"
 
 # API URL
 API_URL = "https://codex-ml.xyz/api/rc.php?regno="
