@@ -2,6 +2,7 @@ import requests
 import telebot
 import json
 from datetime import datetime
+from flask import Flask
 
 # Telegram bot token
 BOT_TOKEN = "7738466078:AAFFSbV6m5VYmnBDjWfwufGvBHH9jya1qX8"
@@ -10,9 +11,14 @@ BOT_TOKEN = "7738466078:AAFFSbV6m5VYmnBDjWfwufGvBHH9jya1qX8"
 API_URL = "https://codex-ml.xyz/api/rc.php?regno="
 
 # Group ID (Replace with your actual group ID)
-GROUP_ID = -1002320210604  # Replace with your group ID
+GROUP_ID = -1002320210604  
 
 bot = telebot.TeleBot(BOT_TOKEN)
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running!"
 
 # Function to check if user is in the group
 def is_user_in_group(user_id):
@@ -22,7 +28,6 @@ def is_user_in_group(user_id):
     except:
         return False
 
-# Start command
 @bot.message_handler(commands=['start'])
 def start(message):
     if is_user_in_group(message.from_user.id):
@@ -30,7 +35,6 @@ def start(message):
     else:
         bot.reply_to(message, "🚫 To use this bot, you must first join our channel: @RtoVehicle")
 
-# Fetch vehicle details
 @bot.message_handler(func=lambda message: True)
 def fetch_vehicle_details(message):
     if not is_user_in_group(message.from_user.id):
@@ -43,7 +47,6 @@ def fetch_vehicle_details(message):
     if response.status_code == 200:
         try:
             data = response.json()
-
             if not data or "error" in data or not data.get("data") or not data['data'].get('detail'):
                 bot.reply_to(message, f"❌ Error: {data.get('error', 'No data found.')}")
                 return
@@ -114,5 +117,8 @@ _____________________________________________
     else:
         bot.reply_to(message, "⚠️ Error fetching data. Please try again later.")
 
-# Start the bot
-bot.polling(none_stop=True)
+# Start both Flask server and Telegram bot
+if __name__ == "__main__":
+    import threading
+    threading.Thread(target=bot.polling, kwargs={'none_stop': True}).start()
+    app.run(host="0.0.0.0", port=10000)
