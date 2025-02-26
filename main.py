@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 # Telegram bot token
-BOT_TOKEN = "7738466078:AAFFSbV6m5VYmnBDjWfwufGvBHH9jya1qX8"
+BOT_TOKEN = "7738466078:AAEmzOmM_Ft4tNDNgYQlVJmXMQ2I1LQTQaU"
 
 # API URL
 API_URL = "https://codex-ml.xyz/api/rc.php?regno="
